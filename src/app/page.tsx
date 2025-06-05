@@ -17,17 +17,38 @@ export default function Home() {
   // .then((result) => console.log(result))
   // .catch((error) => console.error("Error:", error));
   const [userAgent, setUserAgent] = useState<string | null>(null);
-
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     fetch("/api/user-agent")
       .then((res) => res.json())
       .then((data) => setUserAgent(data.userAgent))
-      .catch((err) => console.error("Failed to fetch UA:", err));
+      .then(() =>
+        fetch(`https://api.encar.com/search/car/list/general?count=true&q=(And.(And.Hidden.N._.CarType.Y.)_.AdType.A.)&sr=%7CModifiedDate%7C0%7C8
+`)
+      )
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch((err) => console.error("Failed to fetch UA:", err))
+      .finally(() => setLoading(false));
   }, []);
+  if (data) {
+    console.log("Fetched Data:", data);
+  }
+  if (loading) return <div className="">Loading...</div>;
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <p>{userAgent}</p>
+        <div>
+          {data &&
+            data.SearchResults.map((item) => (
+              <div key={item.Id} className="text-sm sm:text-base">
+                {" "}
+                {item.Id} {item.Model}{" "}
+              </div>
+            ))}
+        </div>
         <Image
           className="dark:invert"
           src="/next.svg"
