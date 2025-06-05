@@ -1,21 +1,29 @@
+"use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { chromium } from "playwright";
 
-const testBrowser = async () => {
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
-  await page.goto("https://encar.com");
-  const userAgent = await page.evaluate(() => navigator.userAgent);
-  console.log("User Agent:", userAgent);
+// const testBrowser = async () => {
+//   const browser = await chromium.launch({ headless: true });
+//   const page = await browser.newPage();
+//   await page.goto("https://encar.com");
+//   const userAgent = await page.evaluate(() => navigator.userAgent);
+//   console.log("User Agent:", userAgent);
 
-  await browser.close();
-  return userAgent;
-};
+//   await browser.close();
+//   return userAgent;
+// };
 export default function Home() {
-  const userAgent = testBrowser();
+  //   const userAgent = testBrowser();
   // .then((result) => console.log(result))
   // .catch((error) => console.error("Error:", error));
+  const [userAgent, setUserAgent] = useState<string | null>(null);
 
+  useEffect(() => {
+    fetch("/api/user-agent")
+      .then((res) => res.json())
+      .then((data) => setUserAgent(data.userAgent))
+      .catch((err) => console.error("Failed to fetch UA:", err));
+  }, []);
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
