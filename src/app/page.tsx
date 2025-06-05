@@ -20,6 +20,17 @@ export default function Home() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
+    fetch(
+      `https://api.encar.com/mobile/usability/target?pcId=17489478488607039847931
+`,
+      {
+        headers: {
+          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsibWVkaWFfYXBpIiwibW9iaWxlX2FwaSIsImRpYWdub3Npc19hcGkiLCJlbmNhcl9yZXNvdXJjZSJdLCJzY29wZSI6WyJyZWFkIl0sImV4cCI6MjU1MzU4OTIyMCwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJqdGkiOiJlMDk0ZjkyNS01MTc5LTQzNjctYWVkYi03NmM4ZGVmMTBjMTgiLCJjbGllbnRfaWQiOiJiYzI4NWEwMy03OTE5LTRjZTktYWEyOC1mMWU0ZmZhYzM2MzIifQ._bXyZvx3Ie7wJxbOBXXyu5rpuE5ZwUNg_rnhfpTNvKw`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => console.log("Target Data:", data));
     fetch("/api/user-agent")
       .then((res) => res.json())
       .then((data) => setUserAgent(data.userAgent))
