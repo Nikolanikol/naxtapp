@@ -24,8 +24,17 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => setUserAgent(data.userAgent))
       .then(() =>
-        fetch(`https://api.encar.com/search/car/list/general?count=true&q=(And.(And.Hidden.N._.CarType.Y.)_.AdType.A.)&sr=%7CModifiedDate%7C0%7C8
-`)
+        fetch(
+          `https://api.encar.com/search/car/list/mobile?count=true&q=(And.Hidden.N._.CarType.A.)&sr=%7CMobileModifiedDate%7C0%7C200&inav=%7CMetadata%7CSort&cursor=
+`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "User-Agent":
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.7103.25 Safari/537.36",
+            },
+          }
+        )
       )
       .then((res) => res.json())
       .then((data) => setData(data))
