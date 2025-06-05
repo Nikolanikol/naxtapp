@@ -42,7 +42,7 @@ export default function Home() {
         <p>{userAgent}</p>
         <div>
           {data &&
-            data.SearchResults.map((item) => (
+            data.SearchResults.map((item: any) => (
               <div key={item.Id} className="text-sm sm:text-base">
                 {" "}
                 {item.Id} {item.Model}{" "}
